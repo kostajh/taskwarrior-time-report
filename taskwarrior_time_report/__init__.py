@@ -13,6 +13,10 @@ TIME_FORMAT = '%Y%m%dT%H%M%SZ'
 w = TaskWarrior()
 t = Terminal()
 
+date_today = datetime.date.today().strftime('%Y-%m-%d')
+date_tomorrow = (datetime.date.today() + datetime.timedelta(days=1)).strftime(
+    '%Y-%m-%d')
+
 
 def main():
     app = foundation.CementApp('taskwarrior-time-report')
@@ -28,19 +32,18 @@ def main():
         app.run()
 
         if app.pargs.today:
-            date_range_start = datetime.date.today().strftime('%Y-%m-%d')
-            date_range_end = (datetime.date.today() +
-                              datetime.timedelta(days=1)
-                              ).strftime('%Y-%m-%d')
-
-        elif not app.pargs.today and (
-                not app.pargs.start or not app.pargs.end
-                ):
-            print t.red('You must specify a date range to filter by')
-            sys.exit(1)
+            date_range_start = date_today
+            date_range_end = date_tomorrow
+        elif not app.pargs.today and not app.pargs.start:
+            # Asssume today
+            date_range_start = date_today
+            date_range_end = date_tomorrow
         else:
             date_range_start = app.pargs.start
-            date_range_end = app.pargs.end
+            if app.pargs.end:
+                date_range_end = app.pargs.end
+            else:
+                date_range_end = date_tomorrow
 
         p = subprocess.Popen([
             'task',
