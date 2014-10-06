@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import datetime
+import calendar
 from cement.core import foundation
 from taskw import TaskWarrior
 import subprocess
@@ -26,16 +27,31 @@ def main():
                               help='Start date')
         app.args.add_argument('-e', '--end', action='store', dest='end',
                               help='End date')
+        # Default reports
         app.args.add_argument('-t', '--today', action='store_true',
                               dest='today', help='Timesheet for today')
-        # TODO: Options for current week and current month
+        app.args.add_argument('-w', '--week', action='store_true',
+                              dest='week', help='Timesheet for current week')
+        app.args.add_argument('-m', '--month', action='store_true',
+                              dest='month', help='Timesheet for current month')
+
         app.run()
 
         if app.pargs.today:
             date_range_start = date_today
             date_range_end = date_tomorrow
+        elif app.pargs.week:
+            # Weekly report
+            print('todo')
+            sys.exit(1)
+        elif app.pargs.month:
+            # Monthly report
+            today = datetime.date.today()
+            date_range_start = today.replace(day=1)
+            date_range_end = today.replace(
+                day=calendar.monthrange(today.year, today.month)[1])
         elif not app.pargs.today and not app.pargs.start:
-            # Asssume today
+            # Assume today as default report
             date_range_start = date_today
             date_range_end = date_tomorrow
         else:
