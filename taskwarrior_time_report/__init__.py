@@ -64,7 +64,6 @@ def main():
         p = subprocess.Popen([
             'task',
             'status:completed',
-            'logged:true',
             'status.not:deleted',
             'actual.not:empty',
             'end.after:%s' % date_range_start,
