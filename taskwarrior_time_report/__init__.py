@@ -113,7 +113,7 @@ def main():
             row.append(
                 t.magenta(
                     str(datetime.datetime.strptime(task['end'], TIME_FORMAT))))
-            row.append(t.green(task['project']))
+            row.append(t.green(task['project'] if 'project' in task else 'None'))
             row.append(t.green(task['description'][:40]))
             row.append(t.yellow(str(actual_time)))
             row.append(t.blue(task['uuid']))
