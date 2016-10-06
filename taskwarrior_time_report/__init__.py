@@ -70,6 +70,7 @@ def main():
             'end.after:%s' % date_range_start,
             'end.before:%s' % date_range_end,
             'rc.verbose=off',
+            'rc.json.array=on',
             'export'
             ],
             stdout=subprocess.PIPE)
