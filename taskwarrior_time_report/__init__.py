@@ -96,7 +96,9 @@ def main():
         for task in logged_tasks:
             row = list()
             actual_time = ''
-            if ('m' in task['actual']):
+            if not ('actual' in task):
+                continue
+            elif ('m' in task['actual']):
                 # Convert to hours
                 actual_time = float(int(task['actual'][:task['actual'].index('m')])) / 60
             elif ('h' in task['actual']):
